@@ -1,0 +1,3 @@
+* Google Photos has a change date/time feature from the web client - how does it work?
+* Handle media items page by page, handle failed downloads
+* Save the timezone with which the backup was created and display a warning when trying to run the backup again with a different timezone

@@ -56,7 +56,8 @@ public class GooglePhotosBackupApp {
 			System.exit(1);
 		}
 		catch (Exception ex) {
-			System.err.println(ex.getMessage());
+			ex.printStackTrace();
+			System.out.println("Backup failed: " + ex.getMessage());
 			System.exit(2);
 		}
 	}

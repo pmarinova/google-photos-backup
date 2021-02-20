@@ -32,17 +32,21 @@ public class PhotosBackupRunner {
 		this.backupDir = backupDir;
 	}
 
+
 	public void setMediaItemType(MediaItemType mediaItemType) {
 		this.mediaItemType = mediaItemType;
 	}
+
 
 	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
+
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
+
 
 	public void run() {
 
@@ -75,14 +79,18 @@ public class PhotosBackupRunner {
 		System.out.printf("Backup finshed in %d minutes.\n", TimeUnit.NANOSECONDS.toMinutes(stopTime-startTime));
 	}
 
+
 	private void removeItem(DownloadedMediaItem item) {
 		FileUtils.deleteQuietly(this.backupDir, Paths.get(item.getFilePath()));
 		this.photosIndex.removeItem(item);
 		System.out.println("Removed " + item.getFilePath());
 	}
 
+
 	private void backupItem(MediaItem item, int itemsCount) {
 		try {
+			item = this.photosLibrary.getMediaItem(item.getId()); // get fresh media item to avoid expiration of the download URL
+
 			MediaItemType itemType = GooglePhotosLibrary.getMediaItemType(item);
 			LocalDate creationDate = GooglePhotosLibrary.getCreationDate(item);
 			URL downloadUrl = GooglePhotosLibrary.getDownloadURL(item);
@@ -102,12 +110,14 @@ public class PhotosBackupRunner {
 		}
 	}
 
+
 	private File getDestinationFile(LocalDate creationDate, String filename) {
 		File destinationDir = new File(this.backupDir, creationDate.getYear() + File.separator + creationDate.getMonthValue());
 		File destinationFile = new File(destinationDir, filename);
 		if (destinationFile.exists()) destinationFile = FileUtils.getNextFile(destinationDir, filename);
 		return destinationFile;
 	}
+
 
 	/**
 	 * Returns the difference between the two sets, i.e A-B.

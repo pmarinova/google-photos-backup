@@ -30,17 +30,21 @@ public class GooglePhotosLibrary {
 	private static final LocalDate DATE_MIN = LocalDate.of(1, 1, 1);
 	private static final LocalDate DATE_MAX = LocalDate.of(9999, 12, 31);
 
+
 	private final Credentials credentials;
 
 	private PhotosLibraryClient client;
+
 
 	public GooglePhotosLibrary(Credentials credentials) {
 		this.credentials = credentials;
 	}
 
+
 	public Credentials getCredentials() {
 		return this.credentials;
 	}
+
 
 	public void initialize() {
 		try {
@@ -53,9 +57,11 @@ public class GooglePhotosLibrary {
 		}
 	}
 
+
 	public void close() {
 		this.client.close();
 	}
+
 
 	public List<MediaItem> listMediaItems(MediaItemType mediaItemType, LocalDate startDate, LocalDate endDate) {
 
@@ -77,6 +83,12 @@ public class GooglePhotosLibrary {
 		return items;
 	}
 
+
+	public MediaItem getMediaItem(String mediaItemId) {
+		return this.client.getMediaItem(mediaItemId);
+	}
+
+
 	private static MediaType toMediaType(MediaItemType mediaItemType) {
 		switch (mediaItemType) {
 		case PHOTO: return MediaType.PHOTO;
@@ -85,6 +97,7 @@ public class GooglePhotosLibrary {
 		}
 	}
 
+
 	private static Date toDate(LocalDate localDate) {
 		return Date.newBuilder()
 				.setYear(localDate.getYear())
@@ -92,6 +105,7 @@ public class GooglePhotosLibrary {
 				.setDay(localDate.getDayOfMonth())
 				.build();
 	}
+
 
 	/**
 	 * Returns the type of the specified media item.
@@ -106,6 +120,7 @@ public class GooglePhotosLibrary {
 			return null;
 		}
 	}
+
 
 	/**
 	 * Returns the creation date of the specified media item as a local date.
@@ -123,6 +138,7 @@ public class GooglePhotosLibrary {
 				.atZone(ZoneId.systemDefault())
 				.toLocalDate();
 	}
+
 
 	/**
 	 * Returns the download URL for the specified media item.

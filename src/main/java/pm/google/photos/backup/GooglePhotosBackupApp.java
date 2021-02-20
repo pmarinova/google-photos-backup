@@ -100,6 +100,7 @@ public class GooglePhotosBackupApp {
 			PhotosBackupRunner backup = new PhotosBackupRunner(photosLibrary, photosIndex, backupDir);
 			backup.setStartDate(startDate);
 			backup.setEndDate(endDate);
+			backup.setMediaItemType(MediaItemType.PHOTO); //TODO: Add command line option for this
 			backup.run();
 
 		} finally {

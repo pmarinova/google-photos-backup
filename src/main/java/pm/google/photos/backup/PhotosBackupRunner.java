@@ -59,7 +59,7 @@ public class PhotosBackupRunner {
 
 		Map<String, MediaItem> libraryItems =
 				this.photosLibrary.listMediaItems(mediaItemType, startDate, endDate).stream()
-				.collect(Collectors.toMap(MediaItem::getId, Function.identity()));
+				.collect(Collectors.toMap(MediaItem::getId, Function.identity(), (i1, i2) -> i1));
 
 		Set<String> removedItems = diff(downloadedItems.keySet(), libraryItems.keySet());
 		Set<String> newItems = diff(libraryItems.keySet(), downloadedItems.keySet());

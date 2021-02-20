@@ -3,5 +3,6 @@
 .project
 /target
 /backup
+/dist
 client_secret.json
 dependency-reduced-pom.xml

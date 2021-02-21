@@ -80,6 +80,7 @@ public class GooglePhotosBackupApp {
 		File dataStoreDir = new File(backupDir, ".data_store");
 		File credentialsDataStore = new File(dataStoreDir, "credentials");
 		File photosIndexDataStore = new File(dataStoreDir, "index");
+		File photosBackupDir = new File(backupDir, "photos");
 
 		GoogleAuthFlow authFlow = new GoogleAuthFlow(clientSecretFile, credentialsDataStore);
 
@@ -98,7 +99,7 @@ public class GooglePhotosBackupApp {
 			photosIndex = DownloadedPhotosJDS.create(photosIndexDataStore);
 			photosIndex.initialize();
 
-			PhotosBackupRunner backup = new PhotosBackupRunner(photosLibrary, photosIndex, backupDir);
+			PhotosBackupRunner backup = new PhotosBackupRunner(photosLibrary, photosIndex, photosBackupDir);
 			backup.setStartDate(startDate);
 			backup.setEndDate(endDate);
 			backup.setMediaItemType(MediaItemType.PHOTO); //TODO: Add command line option for this

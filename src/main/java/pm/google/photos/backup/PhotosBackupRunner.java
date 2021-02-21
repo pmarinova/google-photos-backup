@@ -76,7 +76,7 @@ public class PhotosBackupRunner {
 		}
 
 		long stopTime = System.nanoTime();
-		System.out.printf("Backup finshed in %d minutes.\n", TimeUnit.NANOSECONDS.toMinutes(stopTime-startTime));
+		System.out.printf("Backup finished in %d minutes.\n", TimeUnit.NANOSECONDS.toMinutes(stopTime-startTime));
 	}
 
 

@@ -106,7 +106,7 @@ public class PhotosBackupRunner {
 			this.photosIndex.addItem(downloadedItem);
 
 		} catch (IOException ex) {
-			throw new RuntimeException("Failed to backup item " + item);
+			throw new RuntimeException("Failed to backup item " + item, ex);
 		}
 	}
 

@@ -15,7 +15,7 @@ import com.google.api.client.auth.oauth2.ClientParametersAuthentication;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.AccessToken;
@@ -78,7 +78,7 @@ public class GoogleAuthFlow {
 			return new AuthorizationCodeFlow.Builder(
 						BearerToken.authorizationHeaderAccessMethod(),
 						new NetHttpTransport(),
-						new JacksonFactory(),
+						new GsonFactory(),
 						new GenericUrl(clientInfo.getTokenUri()),
 						new ClientParametersAuthentication(clientInfo.getClientId(), clientInfo.getClientSecret()),
 						clientInfo.getClientId(),

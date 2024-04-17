@@ -29,18 +29,29 @@ public class GooglePhotosBackupApp {
 
 	private static final String CMD_OPTION_START_DATE = "start_date";
 	private static final String CMD_OPTION_END_DATE = "end_date";
+	
+	private static final String CMD_OPTION_HELP = "help";
 
 
 	public static void main(String[] args) {
 
 		Options options = new Options();
+		
 		options.addOption(CMD_OPTION_BACKUP_DIR, 	true, "the backup directory where photos will be downloaded");
 		options.addOption(CMD_OPTION_CLIENT_SECRET, true, "the path to the client_secret.json file");
 		options.addOption(CMD_OPTION_START_DATE, 	true, "optional start date (YYYY-MM-DD), if specified only photos created after this date will be backed up");
 		options.addOption(CMD_OPTION_END_DATE, 		true, "optional end date (YYYY-MM-DD), if specified only photos created before this date will be backed up");
-
+		
+		options.addOption(CMD_OPTION_HELP, "print usage");
+		
+		
 		try {
 			CommandLine cmdLine = new DefaultParser().parse(options, args);
+			
+			if (cmdLine.hasOption(CMD_OPTION_HELP)) {
+				printHelp(options);
+				System.exit(0);
+			}
 
 			File backupDir = getBackupDir(cmdLine);
 			File clientSecretFile = getClientSecretFile(cmdLine);

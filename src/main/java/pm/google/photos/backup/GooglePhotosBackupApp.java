@@ -20,12 +20,12 @@ import pm.google.photos.backup.auth.GoogleAuthFlow;
 
 
 public class GooglePhotosBackupApp {
+	
+	private static final String CMD_OPTION_CLIENT_SECRET = "client_secret";
+	private static final String CMD_OPTION_CLIENT_SECRET_DEFAULT = "client_secret.json";
 
 	private static final String CMD_OPTION_BACKUP_DIR = "backup_dir";
 	private static final String CMD_OPTION_BACKUP_DIR_DEFAULT = "backup";
-
-	private static final String CMD_OPTION_CLIENT_SECRET = "client_secret";
-	private static final String CMD_OPTION_CLIENT_SECRET_DEFAULT = "client_secret.json";
 
 	private static final String CMD_OPTION_START_DATE = "start_date";
 	private static final String CMD_OPTION_END_DATE = "end_date";
@@ -37,8 +37,8 @@ public class GooglePhotosBackupApp {
 
 		Options options = new Options();
 		
-		options.addOption(CMD_OPTION_BACKUP_DIR, 	true, "the backup directory where photos will be downloaded");
 		options.addOption(CMD_OPTION_CLIENT_SECRET, true, "the path to the client_secret.json file");
+		options.addOption(CMD_OPTION_BACKUP_DIR, 	true, "the backup directory where photos will be downloaded");
 		options.addOption(CMD_OPTION_START_DATE, 	true, "optional start date (YYYY-MM-DD), if specified only photos created after this date will be backed up");
 		options.addOption(CMD_OPTION_END_DATE, 		true, "optional end date (YYYY-MM-DD), if specified only photos created before this date will be backed up");
 		
@@ -53,12 +53,12 @@ public class GooglePhotosBackupApp {
 				System.exit(0);
 			}
 
-			File backupDir = getBackupDir(cmdLine);
 			File clientSecretFile = getClientSecretFile(cmdLine);
+			File backupDir = getBackupDir(cmdLine);
 			LocalDate startDate = getStartDate(cmdLine);
 			LocalDate endDate = getEndDate(cmdLine);
 
-			runGooglePhotosBackup(backupDir, clientSecretFile, startDate, endDate);
+			runGooglePhotosBackup(clientSecretFile, backupDir, startDate, endDate);
 			System.exit(0);
 		}
 		catch (ParseException ex) {
@@ -75,14 +75,14 @@ public class GooglePhotosBackupApp {
 
 
 	public static void runGooglePhotosBackup(
-			File backupDir,
 			File clientSecretFile,
+			File backupDir,
 			LocalDate startDate,
 			LocalDate endDate) {
 
-		System.out.println("Backup directory is " + backupDir.getAbsolutePath());
 		System.out.println("Client secret file is " + clientSecretFile.getAbsolutePath());
-
+		System.out.println("Backup directory is " + backupDir.getAbsolutePath());
+		
 		System.out.println(String.format("Backing up photos from %s till %s",
 				(startDate != null ? startDate : "the beginning"),
 				(endDate != null ? endDate : "now")));
@@ -123,6 +123,18 @@ public class GooglePhotosBackupApp {
 				photosIndex.close();
 		}
 	}
+	
+	
+	private static File getClientSecretFile(CommandLine cmdLine) {
+
+		File clientSecretFile = new File(cmdLine.getOptionValue(
+				CMD_OPTION_CLIENT_SECRET, CMD_OPTION_CLIENT_SECRET_DEFAULT));
+
+		if (!clientSecretFile.exists())
+			throw new RuntimeException("Invalid client secret file: " + clientSecretFile.getAbsolutePath());
+
+		return clientSecretFile;
+	}
 
 
 	private static File getBackupDir(CommandLine cmdLine) {
@@ -135,18 +147,6 @@ public class GooglePhotosBackupApp {
 		} catch (IOException ex) {
 			throw new RuntimeException("Invalid backup directory: " + backupDir.getAbsolutePath(), ex);
 		}
-	}
-
-
-	private static File getClientSecretFile(CommandLine cmdLine) {
-
-		File clientSecretFile = new File(cmdLine.getOptionValue(
-				CMD_OPTION_CLIENT_SECRET, CMD_OPTION_CLIENT_SECRET_DEFAULT));
-
-		if (!clientSecretFile.exists())
-			throw new RuntimeException("Invalid client secret file: " + clientSecretFile.getAbsolutePath());
-
-		return clientSecretFile;
 	}
 
 
@@ -173,6 +173,7 @@ public class GooglePhotosBackupApp {
 
 	private static void printHelp(Options options) {
 		HelpFormatter help = new HelpFormatter();
+		help.setOptionComparator(null);
 		help.printHelp("google-photos-backup", options);
 	}
 }

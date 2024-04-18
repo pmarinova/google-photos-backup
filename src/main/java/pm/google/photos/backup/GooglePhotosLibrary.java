@@ -1,6 +1,7 @@
 package pm.google.photos.backup;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -148,7 +149,7 @@ public class GooglePhotosLibrary {
 	 */
 	public static URL getDownloadURL(MediaItem item) {
 		try {
-			return new URL(item.getBaseUrl() + "=d");
+			return URI.create(item.getBaseUrl() + "=d").toURL();
 		} catch (IOException ex) {
 			throw new RuntimeException("Failed to get media item download url", ex);
 		}

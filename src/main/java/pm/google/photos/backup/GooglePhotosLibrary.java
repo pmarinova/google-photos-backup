@@ -144,12 +144,13 @@ public class GooglePhotosLibrary {
 	/**
 	 * Returns the download URL for the specified media item.
 	 * Note that the download URL is valid only for a limited time (~ 1 hour).
-	 * @see https://developers.google.com/photos/library/guides/access-media-items#image-base-urls
+	 * @see https://developers.google.com/photos/library/guides/access-media-items#base-urls
 	 * @param item
 	 */
 	public static URL getDownloadURL(MediaItem item) {
 		try {
-			return URI.create(item.getBaseUrl() + "=d").toURL();
+			String downloadParameter = (getMediaItemType(item) == MediaItemType.PHOTO) ? "d" : "dv";
+			return URI.create(item.getBaseUrl() + "=" + downloadParameter).toURL();
 		} catch (IOException ex) {
 			throw new RuntimeException("Failed to get media item download url", ex);
 		}

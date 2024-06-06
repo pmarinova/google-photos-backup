@@ -112,6 +112,7 @@
                                     <dependencySets>
                                         <dependencySet>
                                             <outputDirectory>libs</outputDirectory>
+                                            <useProjectArtifact>false</useProjectArtifact>
                                         </dependencySet>
                                     </dependencySets>
                                 </inlineDescriptor>

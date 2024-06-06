@@ -19,6 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
         <mainClass>pm.google.photos.backup.GooglePhotosBackupApp</mainClass>
+        <distDir>dist</distDir>
     </properties>
 
     <dependencies>
@@ -91,7 +92,7 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>dist</outputDirectory>
+                            <outputDirectory>${distDir}</outputDirectory>
                             <finalName>${project.artifactId}</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                             <attach>false</attach>
@@ -127,7 +128,7 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>dist</directory>
+                            <directory>${distDir}</directory>
                         </fileset>
                     </filesets>
                 </configuration>

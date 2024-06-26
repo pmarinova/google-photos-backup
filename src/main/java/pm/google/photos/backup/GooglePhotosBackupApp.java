@@ -20,7 +20,7 @@ import pm.google.photos.backup.auth.GoogleAuthFlow;
 
 
 public class GooglePhotosBackupApp {
-	
+
 	private static final String CMD_OPTION_CLIENT_SECRET = "client_secret";
 	private static final String CMD_OPTION_CLIENT_SECRET_DEFAULT = "client_secret.json";
 
@@ -29,28 +29,28 @@ public class GooglePhotosBackupApp {
 
 	private static final String CMD_OPTION_START_DATE = "start_date";
 	private static final String CMD_OPTION_END_DATE = "end_date";
-	
+
 	private static final String CMD_OPTION_MEDIA_TYPE = "media_type";
-	
+
 	private static final String CMD_OPTION_HELP = "help";
 
 
 	public static void main(String[] args) {
 
 		Options options = new Options();
-		
+
 		options.addOption(CMD_OPTION_CLIENT_SECRET, true, "the path to the client_secret.json file");
 		options.addOption(CMD_OPTION_BACKUP_DIR, 	true, "the backup directory where photos will be downloaded");
 		options.addOption(CMD_OPTION_START_DATE, 	true, "optional start date (YYYY-MM-DD), if specified only photos created after this date will be backed up");
 		options.addOption(CMD_OPTION_END_DATE, 		true, "optional end date (YYYY-MM-DD), if specified only photos created before this date will be backed up");
 		options.addOption(CMD_OPTION_MEDIA_TYPE,    true, "the media type - photo or video, if not specified both photo and video items will be backed up");
-		
+
 		options.addOption(CMD_OPTION_HELP, "print usage");
-		
-		
+
+
 		try {
 			CommandLine cmdLine = new DefaultParser().parse(options, args);
-			
+
 			if (cmdLine.hasOption(CMD_OPTION_HELP)) {
 				printHelp(options);
 				System.exit(0);
@@ -87,11 +87,11 @@ public class GooglePhotosBackupApp {
 
 		System.out.println("Client secret file is " + clientSecretFile.getAbsolutePath());
 		System.out.println("Backup directory is " + backupDir.getAbsolutePath());
-		
+
 		System.out.println(String.format("Backing up photos from %s till %s",
 				(startDate != null ? startDate : "the beginning"),
 				(endDate != null ? endDate : "now")));
-		
+
 		System.out.println("Backing up " + (mediaType != null ?
 				mediaType.name().toLowerCase() + " only" : "photos and videos"));
 
@@ -100,11 +100,9 @@ public class GooglePhotosBackupApp {
 		File photosIndexDataStore = new File(dataStoreDir, "index");
 		File photosBackupDir = new File(backupDir, "photos");
 
-		GoogleAuthFlow authFlow = new GoogleAuthFlow(clientSecretFile, credentialsDataStore);
-
 		String userId = System.getProperty("user.name");
 		List<String> scopes = Arrays.asList("https://www.googleapis.com/auth/photoslibrary.readonly");
-		Credentials credentials = authFlow.authorize(userId, scopes);
+		Credentials credentials = new GoogleAuthFlow(clientSecretFile, credentialsDataStore).authorize(userId, scopes);
 
 		GooglePhotosLibrary photosLibrary = null;
 		DownloadedPhotosJDS photosIndex = null;
@@ -130,8 +128,8 @@ public class GooglePhotosBackupApp {
 				photosIndex.close();
 		}
 	}
-	
-	
+
+
 	private static File getClientSecretFile(CommandLine cmdLine) {
 
 		File clientSecretFile = new File(cmdLine.getOptionValue(
@@ -176,8 +174,8 @@ public class GooglePhotosBackupApp {
 			throw new RuntimeException("Invalid date: " + date);
 		}
 	}
-	
-	
+
+
 	private static MediaItemType getMediaType(CommandLine cmdLine) {
 		return cmdLine.hasOption(CMD_OPTION_MEDIA_TYPE) ?
 				MediaItemType.valueOf(cmdLine.getOptionValue(CMD_OPTION_MEDIA_TYPE).toUpperCase()) : null;

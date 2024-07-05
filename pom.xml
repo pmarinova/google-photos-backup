@@ -99,6 +99,7 @@
                 <version>3.7.1</version>
                 <executions>
                     <execution>
+                        <id>jar-with-dependencies</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
@@ -108,27 +109,9 @@
                             <finalName>${project.artifactId}</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                             <attach>false</attach>
-                            <inlineDescriptors>
-                                <inlineDescriptor>
-                                    <id>dist</id>
-                                    <formats>
-                                        <format>dir</format>
-                                    </formats>
-                                    <includeBaseDirectory>false</includeBaseDirectory>
-                                    <files>
-                                        <file>
-                                            <source>${project.build.directory}/${project.build.finalName}.jar</source>
-                                            <destName>${project.artifactId}.jar</destName>
-                                        </file>
-                                    </files>
-                                    <dependencySets>
-                                        <dependencySet>
-                                            <outputDirectory>libs</outputDirectory>
-                                            <useProjectArtifact>false</useProjectArtifact>
-                                        </dependencySet>
-                                    </dependencySets>
-                                </inlineDescriptor>
-                            </inlineDescriptors>
+                            <descriptors>
+                                <descriptor>src/assembly/jar-with-dependencies.xml</descriptor>
+                            </descriptors>
                         </configuration>
                     </execution>
                 </executions>

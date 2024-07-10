@@ -20,6 +20,9 @@
         <maven.compiler.release>21</maven.compiler.release>
         <mainClass>pm.google.photos.backup.GooglePhotosBackupApp</mainClass>
         <distDir>dist</distDir>
+        <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
+        <startDate>${maven.build.timestamp}</startDate>
+        <endDate>${maven.build.timestamp}</endDate>
     </properties>
 
     <dependencies>
@@ -91,6 +94,34 @@
                         </manifest>
                     </archive>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>native-agent</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>java</executable>
+                            <workingDirectory>${project.basedir}</workingDirectory>
+                            <arguments>
+                                <argument>-agentlib:native-image-agent=config-merge-dir=${project.resources[0].directory}/META-INF/native-image</argument>
+                                <argument>-classpath</argument>
+                                <classpath />
+                                <argument>${mainClass}</argument>
+                                <argument>-start_date</argument>
+                                <argument>${startDate}</argument>
+                                <argument>-end_date</argument>
+                                <argument>${endDate}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>

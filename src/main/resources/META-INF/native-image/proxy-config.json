@@ -1,0 +1,5 @@
+[
+  {
+    "interfaces":["com.sun.management.HotSpotDiagnosticMXBean"]
+  }
+]

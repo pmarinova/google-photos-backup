@@ -64,7 +64,8 @@ public class GoogleAuthFlow {
 
 	private static Credential authorize(GoogleAuthorizationCodeFlow authFlow, String userId) {
 		try {
-			return new AuthorizationCodeInstalledApp(authFlow, new LocalServerReceiver()).authorize(userId);
+			AuthorizationCodeInstalledApp.Browser noBrowser = (url) -> System.out.println(url);
+			return new AuthorizationCodeInstalledApp(authFlow, new LocalServerReceiver(), noBrowser).authorize(userId);
 		} catch (IOException ex) {
 			throw new RuntimeException("Failed to authorize", ex);
 		}

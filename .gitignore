@@ -1,8 +1,17 @@
-.classpath
-.settings
-.project
 /target
 /backup
 /dist
 client_secret.json
 dependency-reduced-pom.xml
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
+
+# Ignore Eclipse project files and output folder
+.classpath
+.settings
+.project
+bin

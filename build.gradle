@@ -26,6 +26,11 @@ application {
     mainClass = 'pm.google.photos.backup.GooglePhotosBackupApp'
 }
 
+run {
+  args += '-start_date'
+  args += String.format('%tF', java.time.LocalDateTime.now())
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)

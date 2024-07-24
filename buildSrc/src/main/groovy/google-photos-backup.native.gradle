@@ -1,0 +1,14 @@
+plugins {
+    id 'org.graalvm.buildtools.native'
+}
+
+graalvmNative {
+    agent {
+        enabled = true
+    }
+    metadataCopy {
+        inputTaskNames.add('run')
+        outputDirectories.add('src/main/resources/META-INF/native-image/')
+        mergeWithExisting = true
+    }
+}

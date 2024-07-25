@@ -1,8 +1,5 @@
-/target
 /backup
-/dist
 client_secret.json
-dependency-reduced-pom.xml
 
 # Ignore Gradle project-specific cache directory
 .gradle

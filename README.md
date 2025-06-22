@@ -1,3 +1,13 @@
+### Update 2025
+
+After the latest changes to the Google Photos APIs, it is no longer possible to download your Google Photos library this way.
+Photos and videos can only be downloaded via the new Google Photos Picker API, which requires initiating a session and
+directing the user to the Google Photos app to browse their library and select the photos and videos they want to share
+with the third-party app (i.e. in our case the Google Photos Backup tool). This means there is no way for a user to 
+grant an app read permission to their whole library, which is required for a tool such as Google Photos Backup.
+
+---
+
 Google Photos Backup is a Java tool for downloading all of your Google Photos to the local file system.
 
 The Google Photos API has a quota limit for requests per project per day. This is why you need to create your own project to use the Google Photos Backup tool:
